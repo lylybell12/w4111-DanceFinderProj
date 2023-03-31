@@ -11,7 +11,10 @@ import os
   # accessible as a variable in index.html:
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
-from flask import Flask, request, render_template, g, redirect, Response
+from flask import Flask, request, render_template, g, redirect, Response, url_for, flash
+
+from templates.models import Class, Student, Enrollment, db 
+
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
@@ -103,3 +106,79 @@ def index():
 
   # DEBUG: this is debugging code to see what request looks like
   print(request.args)
+
+
+## OUR WORK
+
+
+# Studio
+@app.route('/studios')
+def studios():
+    try:
+        cursor = g.conn.execute("SELECT * FROM Studio")
+        studios = []
+        for result in cursor:
+            studio_dict = {
+                'id': result[0],
+                'name': result[1],
+                'address': result[2],
+                'phone_number': result[3]
+            }
+            studios.append(studio_dict)
+        cursor.close()
+        context = dict(studios=studios)
+        return render_template("studio.html", **context)
+    except Exception as e:
+        print(e)
+        return render_template('error.html')
+
+
+# Instructor 
+@app.route('/instructors')
+def instructors():
+    cursor = g.conn.execute("SELECT * FROM instructor")
+    instructors = cursor.fetchall()
+    cursor.close()
+    return render_template("instructors.html", instructors=instructors)
+
+# Registration
+@app.route('/registration', methods=['GET', 'POST'])
+def registration():
+    if request.method == 'POST':
+        name = request.form['name']
+        username = request.form['username']
+        email = request.form['email']
+        confirm_email = request.form['confirm_email']
+        phone = request.form['phone']
+        interests = request.form['interests']
+
+        # Create a new student object and add it to the database
+        new_student = Student(name=name, student_id=username, email=email, phone_number=phone, interests=interests)
+        db.session.add(new_student)
+        db.session.commit()
+
+        return redirect(url_for('index'))
+
+    return render_template('registration.html')
+
+# To Enroll Student
+# relationship between Studio and Student
+@app.route('/enroll', methods=['POST'])
+def enroll():
+    student_id = request.form.get('student_id')
+    class_id = request.form.get('class_id')
+    studio_id = request.form.get('studio_id')
+
+    # Get the student and class objects from the database
+    student = Student.query.get(student_id)
+    class_ = Class.query.get(class_id)
+
+    # Add the enrollment to the database
+    enrollment = Enrollment(studio_id=studio_id, student=student, class_=class_)
+    db.session.add(enrollment)
+    db.session.commit()
+
+    flash('You have successfully enrolled in the class!', 'success')
+
+    return redirect(url_for('class'))
+

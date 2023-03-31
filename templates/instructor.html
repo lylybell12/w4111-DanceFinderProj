@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Instructors</title>
+  </head>
+  <body>
+    <h1>Instructors</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Instructor ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Bio</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for instructor in instructors %}
+        <tr>
+          <td>{{ instructor['instructor_id'] }}</td>
+          <td>{{ instructor['first'] }}</td>
+          <td>{{ instructor['last'] }}</td>
+          <td>{{ instructor['bio'] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

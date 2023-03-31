@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Classes</h1>
+
+<form action="{{ url_for('class') }}" method="POST">
+  <label for="studio-filter">Studio:</label>
+  <select name="studio-filter" id="studio-filter">
+    <option value="">All</option>
+    {% for studio in studios %}
+    <option value="{{ studio[0] }}">{{ studio[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="time-filter">Time:</label>
+  <select name="time-filter" id="time-filter">
+    <option value="">All</option>
+    {% for time in times %}
+    <option value="{{ time[0] }}">{{ time[1] }} - {{ time[2] }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="style-filter">Dance Style:</label>
+  <select name="style-filter" id="style-filter">
+    <option value="">All</option>
+    {% for style in styles %}
+    <option value="{{ style[0] }}">{{ style[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="level-filter">Dance Level:</label>
+  <select name="level-filter" id="level-filter">
+    <option value="">All</option>
+    {% for level in levels %}
+    <option value="{{ level[0] }}">{{ level[1] }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="price-filter">Price:</label>
+  <select name="price-filter" id="price-filter">
+    <option value="">All</option>
+    <option value="24">Less than $50</option>
+    <option value="25">$50 - $100</option>
+    <option value="23">$100 - $150</option>
+    <option value="19">More than $150</option>
+  </select>
+
+  <label for="instructor-filter">Instructor:</label>
+  <select name="instructor-filter" id="instructor-filter">
+    <option value="">All</option>
+    {% for instructor in instructors %}
+    <option value="{{ instructor[0] }}">{{ instructor[1] }} {{ instructor[2] }}</option>
+    {% endfor %}
+  </select>
+
+  <input type="submit" value="Filter">
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Class ID</th>
+      <th>Studio</th>
+      <th>Time Slot</th>
+      <th>Dance Style</th>
+      <th>Dance Level</th>
+      <th>Price</th>
+      <th>Instructor</th>
+      <th>Enroll</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for c in classes %}
+    <tr>
+      <td>{{ c[0] }}</td>
+      <td>{{ c[1] }}</td>
+      <td>{{ c[2] }} - {{ c[3] }}</td>
+      <td>{{ c[4] }}</td>
+      <td>{{ c[5] }}</td>
+      <td>${{ c[6] }}</td>
+      <td>{{ c[7] }} {{ c[8] }}</td>
+      <td><a href="{{ url_for('enroll', class_id=c[0]) }}">Enroll</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Studios in NYC</title>
+  </head>
+  <body>
+    <h1>List of Studios</h1>
+    <ul>
+    {% for studio in studios %}
+      <li>ID: {{ studio.id }}, Name: {{ studio.name }}, Address: {{ studio.address }}, Phone Number: {{ studio.phone_number }}</li>
+    {% endfor %}
+    </ul>
+  </body>
+</html>
