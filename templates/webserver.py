@@ -13,7 +13,7 @@ from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response, url_for, flash
 
-from templates.models import Class, Student, Enrollment, db 
+from models import Class, Student, Enrollment, db 
 
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
