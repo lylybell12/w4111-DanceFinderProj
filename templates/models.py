@@ -9,7 +9,7 @@ class Class(db.Model):
     Class_ID = db.Column(db.String(15), primary_key=True)
     Dance_Style = db.Column(db.String(50), nullable=False)
     Dance_Level = db.Column(db.String(50), nullable=False)
-    Price = db.Column(db.Numeric(4, 2), nullable=False, check=db.CheckConstraint('Price > 0'))
+    Price = db.Column(db.Numeric(4, 2), nullable=False, server_default='0.00')
     Room_Number = db.Column(db.String(10), nullable=False)
     Duration = db.Column(db.Numeric(2, 1), nullable=False)
     Time_Slot_ID = db.Column(db.String(6), db.ForeignKey('Time_Slot.Time_Slot_ID'))
