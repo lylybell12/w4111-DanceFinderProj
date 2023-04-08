@@ -32,7 +32,7 @@ app.run(host='0.0.0.0', port=8111)
 #
 #     DATABASEURI = "postgresql://gravano:foobar@34.75.94.195/proj1part2"
 #
-DATABASEURI = f"postgresql://lylybell.teran:4964@34.28.53.86/project1"
+DATABASEURI = f"postgresql://USER:PASSWORD/project1"
 
 
 #
